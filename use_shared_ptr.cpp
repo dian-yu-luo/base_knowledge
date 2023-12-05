@@ -21,7 +21,11 @@ int main(int argc, char const *argv[])
     // 3
     std::cout << "pointer2.use_count() = " << pointer2.use_count() << std::endl; // 3
     std::cout << "pointer3.use_count() = " << pointer3.use_count() << std::endl; // 3
+
+    // 我不和别人共享了昂,我谁也不指向了
     pointer2.reset();
+    // std::cout << *pointer2;
+    // 上面的代码存在问题,因为已经经过了reset,指针谁也不指着了,所以就直接是空指针了
     std::cout << "reset pointer2:" << std::endl;
     std::cout << "pointer.use_count() = " << pointer.use_count() << std::endl;
     // 2
