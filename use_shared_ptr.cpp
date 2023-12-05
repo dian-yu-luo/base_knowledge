@@ -4,6 +4,8 @@ using namespace std;
 // TODO 这个东西的实现原理是什么?
 // 这里的一个函数,参数是 shared_ptr<int> i   //咱也看不懂,这叫个啥,但是
 // 这个智能指针指向的是一个int 类型的值
+
+// TODO 要不要和类的构造扯上关系
 void foo(std::shared_ptr<int> i)
 {
     (*i)++; // 指向的值+1
