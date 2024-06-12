@@ -13,13 +13,14 @@ all:$(SRC_DIR)/help.o $(PROGS)
 $(SRC_DIR)/help.o:$(SRC_DIR)/help.cpp $(INC_DIR)/help.h
 	$(CXX) $(CXXFLAGS) -c -o $(SRC_DIR)/help.o $(SRC_DIR)/help.cpp
 
-main:main.o
-	$(CXX) $(CXXFLAGS)  -o main main.cpp $(SRC_DIR)/help.o $(LIBS)
+main:main.o thread_base.o $(SRC_DIR)/help.o
+	$(CXX) $(CXXFLAGS)  -o main main.o thread_base.o $(SRC_DIR)/help.o $(LIBS)
 
 main.o:main.cpp
 	$(CXX) $(CXXFLAGS) -c -o main.o main.cpp
 
-
+thread_base.o:thread_base.cpp
+	$(CXX) $(CXXFLAGS) -c -o thread_base.o thread_base.cpp
 
 
 

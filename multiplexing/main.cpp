@@ -1,8 +1,7 @@
 #include <iostream>
 #include <help.h>
+#include <thread_base.h>
 int main(int argc, char const *argv[])
 {
-    help h;
-    h.foo();
-    return 0;
+    red_print("哈哈哈哈好");
 }
