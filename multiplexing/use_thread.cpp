@@ -17,14 +17,17 @@ void interact() {
     std::cout << "Hi, " << name << std::endl;
 }
 
-int main() {
+void myfunc() {
     std::thread t1([&] {
         download("hello.zip");
     });
-    interact();
-    std::cout << "Waiting for child thread..." << std::endl;
-    /* 等着子线程 */
     t1.join();
-    std::cout << "Child thread exited!" << std::endl;
+    // 在函数里面去进行多线程操作,就要注意这一点,有可能导致出现特殊的问题
+    // 退出函数体时，会销毁 t1 线程的句柄！
+}
+
+int main() {
+    myfunc();
+    interact();
     return 0;
 }
