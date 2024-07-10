@@ -7,6 +7,7 @@ add_executable(use_thread use_thread.cpp)
 add_executable(construct construct.cpp)
 add_executable(use_async use_async.cpp)
 add_executable(use_mutex use_mutex.cpp)
+add_executable(test_deadlock test_deadlock.cpp)
 
 
 

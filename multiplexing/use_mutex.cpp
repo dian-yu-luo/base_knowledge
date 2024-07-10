@@ -5,21 +5,15 @@
 int main() {
     std::mutex mtx;
     std::thread t1([&] {
-        // 特殊的技巧,判断是否拥有锁
-        std::unique_lock grd(mtx, std::try_to_lock);
-        if (grd.owns_lock())
-            printf("t1 success\n");
-        else
-            printf("t1 failed\n");
+        std::unique_lock grd(mtx);
+        printf("t1 owns the lock\n");
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     });
 
     std::thread t2([&] {
-        std::unique_lock grd(mtx, std::try_to_lock);
-        if (grd.owns_lock())
-            printf("t2 success\n");
-        else
-            printf("t2 failed\n");
+        mtx.lock();
+        std::unique_lock grd(mtx, std::adopt_lock);
+        printf("t2 owns the lock\n");
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     });
 
