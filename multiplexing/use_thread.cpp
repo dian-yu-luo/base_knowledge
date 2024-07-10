@@ -22,5 +22,9 @@ int main() {
         download("hello.zip");
     });
     interact();
+    std::cout << "Waiting for child thread..." << std::endl;
+    /* 等着子线程 */
+    t1.join();
+    std::cout << "Child thread exited!" << std::endl;
     return 0;
 }
