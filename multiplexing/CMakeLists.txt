@@ -3,6 +3,7 @@ project( main)
 
 add_executable(main main.cpp)
 add_executable(time time.cpp)
+add_executable(use_thread use_thread.cpp)
 
 
 
