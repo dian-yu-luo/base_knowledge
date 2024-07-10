@@ -9,23 +9,21 @@ int main() {
     std::mutex mtx;
     std::thread t1([&] {
         for (int i = 0; i < 1000; i++) {
-            /* lock_guard 的写法,直接在作用域中完成锁的任务,会自动析构的 */
-            std::lock_guard grd(mtx);
+            std::unique_lock grd(mtx);
             arr.push_back(1);
         }
     });
     std::thread t2([&] {
         for (int i = 0; i < 1000; i++) {
-            std::lock_guard grd(mtx);
+            /* 更自由的lock,同时保证在析构的时候自动解锁 */
+            std::unique_lock grd(mtx);
             arr.push_back(2);
+            grd.unlock();
+            printf("outside of lock\n");
+            // grd.lock();  // 如果需要，还可以重新上锁
         }
     });
     t1.join();
     t2.join();
-    for (size_t i = 0; i < arr.size(); i++)
-    {
-        std::cout<<arr[i]<<" ";
-    }
-    
     return 0;
 }
