@@ -1,7 +1,8 @@
 #include <iostream>
 #include <mutex>
 
-std::mutex mtx1;
+/* 递归锁 */
+std::recursive_mutex mtx1;
 
 void other() {
     mtx1.lock();
