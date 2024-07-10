@@ -19,7 +19,9 @@ void interact() {
 }
 
 class ThreadPool {
+    /* 线程池用于维护线程的数据结构 */
     std::vector<std::thread> m_pool;
+
 
 public:
     void push_back(std::thread thr) {
