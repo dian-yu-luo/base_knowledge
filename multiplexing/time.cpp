@@ -7,7 +7,9 @@ int main() {
     for (volatile int i = 0; i < 10000000; i++);
     auto t1 = std::chrono::steady_clock::now();
     auto dt = t1 - t0;
-    int64_t ms = std::chrono::duration_cast<std::chrono::milliseconds>(dt).count();
+    using double_ms = std::chrono::duration<double, std::milli>;
+    double ms = std::chrono::duration_cast<double_ms>(dt).count();
+    // 更加精细时间内容
     std::cout << "time elapsed: " << ms << " ms" << std::endl;
     return 0;
 }
