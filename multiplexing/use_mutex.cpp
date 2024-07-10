@@ -1,19 +1,29 @@
 #include <cstdio>
+#include <thread>
 #include <mutex>
 
-std::mutex mtx1;
-
 int main() {
-    if (mtx1.try_lock())
-        printf("succeed\n");
-    else
-        printf("failed\n");
+    std::mutex mtx;
+    std::thread t1([&] {
+        
+        std::unique_lock grd(mtx, std::try_to_lock);
+        if (grd.owns_lock())
+            printf("t1 success\n");
+        else
+            printf("t1 failed\n");
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    });
 
-    if (mtx1.try_lock())
-        printf("succeed\n");
-    else
-        printf("failed\n");
+    std::thread t2([&] {
+        std::unique_lock grd(mtx, std::try_to_lock);
+        if (grd.owns_lock())
+            printf("t2 success\n");
+        else
+            printf("t2 failed\n");
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    });
 
-    mtx1.unlock();
+    t1.join();
+    t2.join();
     return 0;
 }
