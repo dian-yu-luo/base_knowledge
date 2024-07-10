@@ -9,17 +9,14 @@ int main() {
 
     std::thread t1([&] {
         for (int i = 0; i < 1000; i++) {
-            /* 还有一种办法就是申请的顺序保持一致 */
-            mtx1.lock();
-            mtx2.lock();
-            mtx2.unlock();
+            std::lock(mtx1, mtx2); // 实现里面会进行尝试性加锁
             mtx1.unlock();
+            mtx2.unlock();
         }
     });
     std::thread t2([&] {
         for (int i = 0; i < 1000; i++) {
-            mtx1.lock();
-            mtx2.lock();
+            std::lock(mtx2, mtx1);
             mtx2.unlock();
             mtx1.unlock();
         }
