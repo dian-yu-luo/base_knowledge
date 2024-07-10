@@ -5,7 +5,7 @@
 int main() {
     std::mutex mtx;
     std::thread t1([&] {
-        
+        // 特殊的技巧,判断是否拥有锁
         std::unique_lock grd(mtx, std::try_to_lock);
         if (grd.owns_lock())
             printf("t1 success\n");
