@@ -18,7 +18,9 @@ void interact() {
 }
 
 int main() {
-    download("hello.zip");
+    std::thread t1([&] {
+        download("hello.zip");
+    });
     interact();
     return 0;
 }
