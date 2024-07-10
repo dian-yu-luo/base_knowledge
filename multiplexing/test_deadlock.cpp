@@ -1,22 +1,26 @@
 #include <iostream>
-#include <mutex>
-
-/* 递归锁 */
-std::recursive_mutex mtx1;
-
-void other() {
-    mtx1.lock();
-    // do something
-    mtx1.unlock();
-}
-
-void func() {
-    mtx1.lock();
-    other();
-    mtx1.unlock();
-}
+#include <thread>
+#include <vector>
 
 int main() {
-    func();
+    std::vector<int> arr;
+
+    std::thread t1([&] () {
+        for (int i = 0; i < 1000; i++) {
+            arr.push_back(i);
+        }
+    });
+
+    std::thread t2([&] () {
+        for (int i = 0; i < 1000; i++) {
+            arr.push_back(1000 + i);
+        }
+    });
+
+    t1.join();
+    t2.join();
+
+    std::cout << arr.size() << std::endl;
+
     return 0;
 }
