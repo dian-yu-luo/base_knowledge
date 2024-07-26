@@ -8,42 +8,50 @@ class MTVector {
     std::mutex m_mtx;
 
 public:
-    void push_back(int val) {
-        m_mtx.lock();
-        m_arr.push_back(val);
-        m_mtx.unlock();
-    }
+    class Accessor {
+        MTVector &m_that;
+        std::unique_lock<std::mutex> m_guard;
 
-    size_t size() const {
-        // m_mtx.lock();
-        size_t ret = m_arr.size();
-        // m_mtx.unlock();
-        return ret;
+    public:
+        Accessor(MTVector &that)
+            : m_that(that), m_guard(that.m_mtx)
+        {}
+
+        void push_back(int val) const {
+            return m_that.m_arr.push_back(val);
+        }
+
+        size_t size() const {
+            return m_that.m_arr.size();
+        }
+    };
+
+    Accessor access() {
+        return {*this};
     }
 };
 
 int main() {
-    /* 除了在使用的时候还能对操作的数据结构进行设置,让他变成有锁的数据结构,
-    可以简化开发时的便利
-     */
     MTVector arr;
 
     std::thread t1([&] () {
+        auto axr = arr.access();
         for (int i = 0; i < 1000; i++) {
-            arr.push_back(i);
+            axr.push_back(i);
         }
     });
 
     std::thread t2([&] () {
+        auto axr = arr.access();
         for (int i = 0; i < 1000; i++) {
-            arr.push_back(1000 + i);
+            axr.push_back(1000 + i);
         }
     });
 
     t1.join();
     t2.join();
 
-    std::cout << arr.size() << std::endl;
+    std::cout << arr.access().size() << std::endl;
 
     return 0;
 }
