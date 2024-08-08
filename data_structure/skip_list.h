@@ -26,6 +26,8 @@ public:
     // 功能函数
     Node *NewNode(const Key &key, int height);
 
+    void Insert(const Key &key);
+
     Comparator const compare_;
     /* 这个指针永远指向这个对象 */
     Arena *const arena_; // Arena used for allocations of nodes
@@ -55,4 +57,9 @@ typename SkipList<Key, Comparator>::Node *SkipList<Key, Comparator>::NewNode(con
         sizeof(Node) + sizeof(std::atomic<Node *>) * (height - 1));
     return new (node_memory) Node(key);
     return nullptr;
+}
+
+template <typename Key, class Comparator>
+void SkipList<Key, Comparator>::Insert(const Key &key)
+{
 }
