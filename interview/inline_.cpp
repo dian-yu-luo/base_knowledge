@@ -32,7 +32,10 @@ int main()
     Base *ptr = new Derived();
     ptr->who();
 
-    // 因为Base有虚析构函数（virtual ~Base() {}），所以 delete 时，会先调用派生类（Derived）析构函数，再调用基类（Base）析构函数，防止内存泄漏。
+    // 这个析构原来这么用啊
+    // 因为Base有虚析构函数（virtual ~Base() {}），
+    // 所以 delete 时，会先调用派生类（Derived）析构函数，
+    // 再调用基类（Base）析构函数，防止内存泄漏。
     delete ptr;
     ptr = nullptr;
 
